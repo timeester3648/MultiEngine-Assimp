@@ -9,12 +9,21 @@ project "Assimp"
 	inlining "Auto"
 
 	files {
-		"./**.c",
-		"./**.h",
-		"./**.cc",
-		"./**.inl",
-		"./**.hpp",
-		"./**.cpp"
+		"./code/**.c",
+		"./code/**.h",
+		"./code/**.cc",
+		"./code/**.inl",
+		"./code/**.hpp",
+		"./code/**.cpp",
+
+		"./contrib/**.c",
+		"./contrib/**.h",
+		"./contrib/**.cc",
+		"./contrib/**.inl",
+		"./contrib/**.hpp",
+		"./contrib/**.cpp",
+
+		"./include/**.h"
 	}
 
 	includedirs {
