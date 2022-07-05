@@ -54,13 +54,17 @@ project "Assimp"
 		"./contrib/zip/**.c",
 
 		"./contrib/zlib/**.c",
-		"./contrib/zlib/**.cc"
+		"./contrib/zlib/**.cc",
+		"./contrib/zlib/**.cpp"
 	}
 
 	defines {
 		"OPENDDL_STATIC_LIBARY",
 		"ASSIMP_BUILD_NO_EXPORT",
-		"ASSIMP_BUILD_NO_OWN_ZLIB"
+		"ASSIMP_BUILD_NO_OWN_ZLIB",
+		"ASSIMP_BUILD_NO_C4D_IMPORTER",
+		"ASSIMP_BUILD_NO_IFC_IMPORTER",
+		"ASSIMP_BUILD_NO_M3D_IMPORTER"
 	}
 
  	filter "system:windows"
