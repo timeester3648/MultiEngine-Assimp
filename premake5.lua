@@ -51,7 +51,10 @@ project "Assimp"
 		"./code/AssetLib/IFC/**.cpp",
 		"./code/AssetLib/M3D/**.cpp",
 
-		"./contrib/zlib/**.cpp"
+		"./contrib/zip/**.c",
+
+		"./contrib/zlib/**.c",
+		"./contrib/zlib/**.cc"
 	}
 
 	defines {
