@@ -29,16 +29,31 @@ project "Assimp"
 	includedirs {
 		".",
 		"./code",
+		"./include",
 		"./contrib",
 		"./contrib/unzip",
 		"./contrib/irrXML",
 		"./contrib/pugixml/src",
 		"./contrib/rapidjson/include",
 		"./contrib/openddlparser/include",
+		"./contrib/zlib/contrib/iostream",
+		"./contrib/zlib/contrib/iostream2",
 
 		"%{IncludeDir.mle}",
 		"%{IncludeDir.zlib}",
 		"%{IncludeDir.assimp}"
+	}
+
+	excludes {
+		"./contrib/zlib/*.c",
+		"./contrib/draco/**.cc",
+		"./contrib/gtest/**.cc",
+
+		"./code/AssetLib/C4D/**.cpp",
+		"./code/AssetLib/IFC/**.cpp",
+		"./code/AssetLib/M3D/**.cpp",
+
+		"./contrib/zlib/contrib/iostream2/zstream_test.cpp",
 	}
 
 	defines {
