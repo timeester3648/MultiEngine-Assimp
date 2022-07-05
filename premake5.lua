@@ -36,8 +36,6 @@ project "Assimp"
 		"./contrib/pugixml/src",
 		"./contrib/rapidjson/include",
 		"./contrib/openddlparser/include",
-		"./contrib/zlib/contrib/iostream",
-		"./contrib/zlib/contrib/iostream2",
 
 		"%{IncludeDir.mle}",
 		"%{IncludeDir.zlib}",
@@ -53,7 +51,7 @@ project "Assimp"
 		"./code/AssetLib/IFC/**.cpp",
 		"./code/AssetLib/M3D/**.cpp",
 
-		"./contrib/zlib/contrib/iostream2/zstream_test.cpp",
+		"./contrib/zlib/**.cpp"
 	}
 
 	defines {
