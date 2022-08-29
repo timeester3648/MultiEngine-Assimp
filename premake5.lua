@@ -69,6 +69,7 @@ project "Assimp"
 
  	filter "system:windows"
 		buildoptions { "/bigobj" }
+		disablewarnings { "4244" }
 		defines { "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING", "_CRT_SECURE_NO_WARNINGS" }
 
  	filter "configurations:Debug"
