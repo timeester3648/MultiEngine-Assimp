@@ -39,7 +39,8 @@ project "Assimp"
 
 		"%{IncludeDir.mle}",
 		"%{IncludeDir.zlib}",
-		"%{IncludeDir.assimp}"
+		"%{IncludeDir.assimp}",
+		"%{IncludeDir.intrinsics}"
 	}
 
 	excludes {
