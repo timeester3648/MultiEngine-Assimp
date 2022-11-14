@@ -57,9 +57,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #  include "../contrib/clipper/clipper.hpp"
 #endif
 
-#include <iterator>
-#include <forward_list>
 #include <deque>
+#include <forward_list>
+#include <iterator>
+#include <utility>
 
 namespace Assimp {
     namespace IFC {
@@ -399,7 +400,7 @@ void MergeWindowContours (const std::vector<IfcVector2>& a,
     ClipperLib::Polygon clip;
 
     for(const IfcVector2& pip : a) {
-        clip.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+        clip.emplace_back(to_int64(pip.x), to_int64(pip.y));
     }
 
     if (ClipperLib::Orientation(clip)) {
@@ -410,7 +411,7 @@ void MergeWindowContours (const std::vector<IfcVector2>& a,
     clip.clear();
 
     for(const IfcVector2& pip : b) {
-        clip.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+        clip.emplace_back(to_int64(pip.x), to_int64(pip.y));
     }
 
     if (ClipperLib::Orientation(clip)) {
@@ -433,7 +434,7 @@ void MakeDisjunctWindowContours (const std::vector<IfcVector2>& a,
     ClipperLib::Polygon clip;
 
     for(const IfcVector2& pip : a) {
-        clip.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+        clip.emplace_back(to_int64(pip.x), to_int64(pip.y));
     }
 
     if (ClipperLib::Orientation(clip)) {
@@ -444,7 +445,7 @@ void MakeDisjunctWindowContours (const std::vector<IfcVector2>& a,
     clip.clear();
 
     for(const IfcVector2& pip : b) {
-        clip.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+        clip.emplace_back(to_int64(pip.x), to_int64(pip.y));
     }
 
     if (ClipperLib::Orientation(clip)) {
@@ -466,7 +467,7 @@ void CleanupWindowContour(ProjectedWindowContour& window)
     ClipperLib::ExPolygons clipped;
 
     for(const IfcVector2& pip : contour) {
-        subject.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+        subject.emplace_back(to_int64(pip.x), to_int64(pip.y));
     }
 
     clipper.AddPolygon(subject,ClipperLib::ptSubject);
@@ -524,7 +525,7 @@ void CleanupOuterContour(const std::vector<IfcVector2>& contour_flat, TempMesh& 
         ClipperLib::Polygon clip;
         clip.reserve(contour_flat.size());
         for(const IfcVector2& pip : contour_flat) {
-            clip.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+            clip.emplace_back(to_int64(pip.x), to_int64(pip.y));
         }
 
         if (!ClipperLib::Orientation(clip)) {
@@ -544,7 +545,7 @@ void CleanupOuterContour(const std::vector<IfcVector2>& contour_flat, TempMesh& 
                     continue;
                 }
             }
-            subject.push_back(ClipperLib::IntPoint(  to_int64(pip.x), to_int64(pip.y) ));
+            subject.emplace_back(to_int64(pip.x), to_int64(pip.y));
             if (--countdown == 0) {
                 if (!ClipperLib::Orientation(subject)) {
                     std::reverse(subject.begin(), subject.end());
@@ -1378,12 +1379,12 @@ bool GenerateOpenings(std::vector<TempOpening>& openings,
 
         if(!temp_contour.empty()) {
             if (generate_connection_geometry) {
-                contours_to_openings.push_back(std::vector<TempOpening*>(
-                    joined_openings.begin(),
-                    joined_openings.end()));
+                contours_to_openings.emplace_back(
+                        joined_openings.begin(),
+                        joined_openings.end());
             }
 
-            contours.push_back(ProjectedWindowContour(temp_contour, bb, is_rectangle));
+            contours.emplace_back(temp_contour, bb, is_rectangle);
         }
     }
 
@@ -1699,7 +1700,7 @@ std::vector<std::vector<IfcVector2>> GetContoursInPlane(const std::shared_ptr<Te
         bool ok;
         auto contour = GetContourInPlane2D(mesh,planeSpace,planeNor,planeOffset,extrusionDir,wall_extrusion,first,ok);
         if(ok)
-            return std::vector<std::vector<IfcVector2>> {contour};
+            return std::vector<std::vector<IfcVector2>> {std::move(contour)};
         else
             return std::vector<std::vector<IfcVector2>> {};
     }
@@ -1791,7 +1792,7 @@ bool TryAddOpenings_Poly2Tri(const std::vector<TempOpening>& openings,
                     pip.x = (pip.x - vmin.x) / vmax.x;
                     pip.y = (pip.y - vmin.y) / vmax.y;
 
-                    hole.push_back(ClipperLib::IntPoint(to_int64(pip.x),to_int64(pip.y)));
+                    hole.emplace_back(to_int64(pip.x), to_int64(pip.y));
                 }
 
                 if(!ClipperLib::Orientation(hole)) {
@@ -1833,7 +1834,7 @@ bool TryAddOpenings_Poly2Tri(const std::vector<TempOpening>& openings,
                 pip.x  = (pip.x - vmin.x) / vmax.x;
                 pip.y  = (pip.y - vmin.y) / vmax.y;
 
-                poly.push_back(ClipperLib::IntPoint( to_int64(pip.x), to_int64(pip.y) ));
+                poly.emplace_back(to_int64(pip.x), to_int64(pip.y));
             }
 
             if (ClipperLib::Orientation(poly)) {

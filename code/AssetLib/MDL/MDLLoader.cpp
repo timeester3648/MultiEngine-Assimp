@@ -98,9 +98,7 @@ MDLImporter::MDLImporter() :
 
 // ------------------------------------------------------------------------------------------------
 // Destructor, private as well
-MDLImporter::~MDLImporter() {
-    // empty
-}
+MDLImporter::~MDLImporter() = default;
 
 // ------------------------------------------------------------------------------------------------
 // Returns whether the class can handle the format of the given file.
@@ -300,7 +298,7 @@ void MDLImporter::SizeCheck(const void *szPos, const char *szFile, unsigned int 
         }
 
         char szBuffer[1024];
-        ::sprintf(szBuffer, "Invalid MDL file. The file is too small "
+        ::snprintf(szBuffer, sizeof(szBuffer), "Invalid MDL file. The file is too small "
                             "or contains invalid data (File: %s Line: %u)",
                 szFilePtr, iLine);
 

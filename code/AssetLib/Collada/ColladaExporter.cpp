@@ -91,7 +91,7 @@ void ExportSceneCollada(const char *pFile, IOSystem *pIOSystem, const aiScene *p
 // Encodes a string into a valid XML ID using the xsd:ID schema qualifications.
 static const std::string XMLIDEncode(const std::string &name) {
     const char XML_ID_CHARS[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_-.";
-    const unsigned int XML_ID_CHARS_COUNT = sizeof(XML_ID_CHARS) / sizeof(char);
+    const unsigned int XML_ID_CHARS_COUNT = sizeof(XML_ID_CHARS) / sizeof(char) - 1;
 
     if (name.length() == 0) {
         return name;
@@ -154,8 +154,7 @@ ColladaExporter::ColladaExporter(const aiScene *pScene, IOSystem *pIOSystem, con
 
 // ------------------------------------------------------------------------------------------------
 // Destructor
-ColladaExporter::~ColladaExporter() {
-}
+ColladaExporter::~ColladaExporter() = default;
 
 // ------------------------------------------------------------------------------------------------
 // Starts writing the contents

@@ -75,14 +75,7 @@ static const aiImporterDesc desc = {
 
 // ------------------------------------------------------------------------------------------------
 // Constructor to be privately used by Importer
-XFileImporter::XFileImporter()
-: mBuffer() {
-    // empty
-}
-
-// ------------------------------------------------------------------------------------------------
-// Destructor, private as well
-XFileImporter::~XFileImporter() {
+XFileImporter::XFileImporter() : mBuffer() {
     // empty
 }
 

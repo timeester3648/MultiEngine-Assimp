@@ -1,4 +1,5 @@
-/*-------------------------------------------------------------------------
+/*
+---------------------------------------------------------------------------
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
@@ -35,43 +36,75 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
--------------------------------------------------------------------------*/
-#include "UnitTestPCH.h"
-#include <assimp/version.h>
+---------------------------------------------------------------------------
+*/
 
-class utVersion : public ::testing::Test {
-    // empty
+#include "TestIOSystem.h"
+#include "UnitTestPCH.h"
+
+#include "Common/BaseProcess.h"
+#include "Common/AssertHandler.h"
+
+using namespace Assimp;
+
+class BaseProcessTest : public ::testing::Test {
+public:
+    static void test_handler( const char*, const char*, int ) {
+        HandlerWasCalled = true;
+    }
+
+    void SetUp() override {
+        HandlerWasCalled = false;
+        setAiAssertHandler(test_handler);
+    }
+
+    void TearDown() override {
+        setAiAssertHandler(nullptr);
+    }
+
+    static bool handlerWasCalled() {
+        return HandlerWasCalled;
+    }
+
+private:
+    static bool HandlerWasCalled;
 };
 
-TEST_F( utVersion, aiGetLegalStringTest ) {
-    const char *lv = aiGetLegalString();
-    EXPECT_NE( lv, nullptr );
-    std::string text( lv );
+bool BaseProcessTest::HandlerWasCalled = false;
 
-    size_t pos = text.find(std::string("2022"));
-    EXPECT_NE(pos, std::string::npos);
+class TestingBaseProcess : public BaseProcess {
+public:
+    TestingBaseProcess() : BaseProcess() {
+        // empty
+    }
+
+    ~TestingBaseProcess() override = default;
+
+    bool IsActive( unsigned int ) const override {
+        return true;
+    }
+
+    void Execute(aiScene*) override {
+
+    }
+};
+TEST_F( BaseProcessTest, constructTest ) {
+    bool ok = true;
+    try {
+        TestingBaseProcess process;
+    } catch (...) {
+        ok = false;
+    }
+    EXPECT_TRUE(ok);
 }
 
-TEST_F( utVersion, aiGetVersionMinorTest ) {
-    EXPECT_EQ(aiGetVersionMinor(), 2U);
-}
+TEST_F( BaseProcessTest, executeOnSceneTest ) {
+    TestingBaseProcess process;
+    process.ExecuteOnScene(nullptr);
+#ifdef ASSIMP_BUILD_DEBUG
+    EXPECT_TRUE(BaseProcessTest::handlerWasCalled());
+#else
+    EXPECT_FALSE(BaseProcessTest::handlerWasCalled());
+#endif
 
-TEST_F( utVersion, aiGetVersionMajorTest ) {
-    EXPECT_EQ( aiGetVersionMajor(), 5U );
-}
-
-TEST_F( utVersion, aiGetVersionPatchTest ) {
-    EXPECT_EQ(aiGetVersionPatch(), 5U );
-}
-
-TEST_F( utVersion, aiGetCompileFlagsTest ) {
-    EXPECT_NE( aiGetCompileFlags(), 0U );
-}
-
-TEST_F( utVersion, aiGetVersionRevisionTest ) {
-    EXPECT_NE( aiGetVersionRevision(), 0U );
-}
-
-TEST_F( utVersion, aiGetBranchNameTest ) {
-    EXPECT_NE( nullptr, aiGetBranchName() );
 }
