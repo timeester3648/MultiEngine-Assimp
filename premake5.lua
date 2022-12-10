@@ -68,7 +68,7 @@ project "Assimp"
 		"ASSIMP_BUILD_NO_M3D_IMPORTER"
 	}
 
-	filter "action:vs*"
+	filter "toolset:msc"
 		buildoptions { "/bigobj" }
 		disablewarnings { "4244" }
 		defines { "_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING" }
