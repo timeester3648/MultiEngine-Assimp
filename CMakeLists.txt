@@ -1,6 +1,6 @@
 # Open Asset Import Library (assimp)
 # ----------------------------------------------------------------------
-# Copyright (c) 2006-2022, assimp team
+# Copyright (c) 2006-2023, assimp team
 #
 # All rights reserved.
 #
@@ -262,13 +262,13 @@ IF ((CMAKE_C_COMPILER_ID MATCHES "GNU") AND NOT MINGW)
   ENDIF()
   # hide all not-exported symbols
   IF(CMAKE_HOST_SYSTEM_PROCESSOR MATCHES "mips64" )
-	SET(CMAKE_CXX_FLAGS "-mxgot -fvisibility=hidden -fno-strict-aliasing -Wall ${CMAKE_CXX_FLAGS}")
-	SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
-	SET(LIBSTDC++_LIBRARIES -lstdc++)
+    SET(CMAKE_CXX_FLAGS "-mxgot -fvisibility=hidden -fno-strict-aliasing -Wall ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
+    SET(LIBSTDC++_LIBRARIES -lstdc++)
   ELSE()
-	SET(CMAKE_CXX_FLAGS "-fvisibility=hidden -fno-strict-aliasing -Wall ${CMAKE_CXX_FLAGS}")
-	SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
-	SET(LIBSTDC++_LIBRARIES -lstdc++)
+    SET(CMAKE_CXX_FLAGS "-fvisibility=hidden -fno-strict-aliasing -Wall ${CMAKE_CXX_FLAGS}")
+    SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
+    SET(LIBSTDC++_LIBRARIES -lstdc++)
   ENDIF()
 ELSEIF(MSVC)
   # enable multi-core compilation with MSVC
@@ -277,13 +277,15 @@ ELSEIF(MSVC)
   ELSE() # msvc
     ADD_COMPILE_OPTIONS(/MP /bigobj /W4 /WX)
   ENDIF()
+  
   # disable "elements of array '' will be default initialized" warning on MSVC2013
   IF(MSVC12)
     ADD_COMPILE_OPTIONS(/wd4351)	
   ENDIF()
-  ADD_COMPILE_OPTIONS(/wd4244) #supress warning for double to float conversion if Double precission is activated
+  # supress warning for double to float conversion if Double precission is activated
+  ADD_COMPILE_OPTIONS(/wd4244) 
   SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_DEBUG /Zi /Od")
-  SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /Zi")
+  SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
   SET(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /DEBUG:FULL /PDBALTPATH:%_PDB% /OPT:REF /OPT:ICF")
 ELSEIF (CMAKE_CXX_COMPILER_ID MATCHES "Clang" )
   IF(NOT ASSIMP_HUNTER_ENABLED)
@@ -387,14 +389,6 @@ IF (NOT TARGET uninstall AND ASSIMP_INSTALL)
   CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
   ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
 ENDIF()
-
-# cmake configuration files
-if(${BUILD_SHARED_LIBS})
-  set(BUILD_LIB_TYPE SHARED)
-else()
-  set(BUILD_LIB_TYPE STATIC)
-  add_definitions(-DDDL_STATIC_LIBRARY=OFF)
-endif()
 
 IF( UNIX )
   # Use GNUInstallDirs for Unix predefined directories
