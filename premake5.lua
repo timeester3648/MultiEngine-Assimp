@@ -46,7 +46,7 @@ project "Assimp"
 	excludes {
 		"./contrib/zlib/*.c",
 		"./contrib/draco/**.cc",
-		"./contrib/gtest/**.cc",
+		"./contrib/googletest/**.cc",
 
 		"./code/AssetLib/C4D/**.cpp",
 		"./code/AssetLib/IFC/**.cpp",
