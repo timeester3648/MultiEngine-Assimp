@@ -34,6 +34,7 @@ project "Assimp"
 		"./contrib/unzip",
 		"./contrib/irrXML",
 		"./contrib/pugixml/src",
+		"./contrib/utf8cpp/source",
 		"./contrib/rapidjson/include",
 		"./contrib/openddlparser/include",
 
