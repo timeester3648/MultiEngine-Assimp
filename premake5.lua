@@ -38,10 +38,8 @@ project "Assimp"
 		"./contrib/rapidjson/include",
 		"./contrib/openddlparser/include",
 
-		"%{IncludeDir.mle}",
 		"%{IncludeDir.zlib}",
 		"%{IncludeDir.assimp}",
-		"%{IncludeDir.intrinsics}"
 	}
 
 	excludes {
