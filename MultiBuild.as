@@ -69,14 +69,14 @@ void main(MultiBuild::Workspace& workspace) {
 	});
 
 	{
-		MultiBuild::ScopedFilter _(workspace, "project.compiler:VisualCpp");
+		MultiBuild::ScopedFilter _(project, "project.compiler:VisualCpp");
 		properties.build_options({ "/bigobj" });
 		properties.disable_warnings({ "4244" });
 		properties.defines("_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING");
 	}
 
 	{
-		MultiBuild::ScopedFilter _(workspace, "config.platform:Windows");
+		MultiBuild::ScopedFilter _(project, "config.platform:Windows");
 		properties.defines({
 			"_CRT_SECURE_NO_WARNINGS"
 		});
