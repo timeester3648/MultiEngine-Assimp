@@ -4,7 +4,11 @@ void main(MultiBuild::Workspace& workspace) {
 
 	project.name("Assimp");
 	properties.binary_object_kind(MultiBuild::BinaryObjectKind::eStaticLib);
-	properties.project_includes("zlib");
+	properties.project_includes({
+		"zlib",
+		"poly2tri"
+	});
+
 	project.license("./LICENSE");
 
 	project.include_own_required_includes(true);
@@ -66,7 +70,10 @@ void main(MultiBuild::Workspace& workspace) {
 
 		"./contrib/zlib/**.c",
 		"./contrib/zlib/**.cc",
-		"./contrib/zlib/**.cpp"
+		"./contrib/zlib/**.cpp",
+
+		"./contrib/poly2tri/**.h",
+		"./contrib/poly2tri/**.cc"
 	});
 
 	{
