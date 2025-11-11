@@ -23,7 +23,9 @@ void main(MultiBuild::Workspace& workspace) {
 		"ASSIMP_BUILD_NO_C4D_IMPORTER",
 		"ASSIMP_BUILD_NO_IFC_IMPORTER",
 		"ASSIMP_BUILD_NO_M3D_IMPORTER",
-		"ASSIMP_BUILD_NO_USD_IMPORTER"
+		"ASSIMP_BUILD_NO_USD_IMPORTER",
+		"ASSIMP_BUILD_NO_X3D_IMPORTER",
+		"ASSIMP_BUILD_NO_VRML_IMPORTER"
 	});
 
 	properties.files({
@@ -65,6 +67,8 @@ void main(MultiBuild::Workspace& workspace) {
 		"./code/AssetLib/C4D/**.cpp",
 		"./code/AssetLib/IFC/**.cpp",
 		"./code/AssetLib/M3D/**.cpp",
+		"./code/AssetLib/VRML/**.cpp",
+		"./code/AssetLib/X3D/**.cpp",
 
 		"./contrib/zip/**.c",
 
