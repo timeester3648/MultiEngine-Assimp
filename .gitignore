@@ -59,6 +59,8 @@ test/readlinetest*
 
 # Python
 __pycache__
+.venv/
+*.egg-info/
 *.log
 *.vcxproj
 *.filters
